@@ -9,8 +9,7 @@
 运行：
 
 <pre>
-M:\eclipse 3.3.2\workspace\mmseg4j>java -cp bin -Djava.ext.dirs=lib com.chenlb.mmseg4j.example.Perfo
-rmanceAnalyzer txt
+M:\eclipse 3.3.2\workspace\mmseg4j>java -cp bin -Djava.ext.dirs=lib com.chenlb.mmseg4j.example.PerformanceAnalyzer txt
 Mar 28, 2009 4:35:02 PM com.chenlb.mmseg4j.Dictionary <init>
 信息: look up in mmseg.dic.path=null
 Mar 28, 2009 4:35:02 PM com.chenlb.mmseg4j.Dictionary <init>
@@ -29,8 +28,7 @@ use 4921ms
 simple 模式：
 <pre>
 
-M:\eclipse 3.3.2\workspace\mmseg4j>java -cp bin -Djava.ext.dirs=lib -Dmode=simple com.chenlb.mmseg4j
-.example.PerformanceAnalyzer txt
+M:\eclipse 3.3.2\workspace\mmseg4j>java -cp bin -Djava.ext.dirs=lib -Dmode=simple com.chenlb.mmseg4j.example.PerformanceAnalyzer txt
 Mar 28, 2009 4:35:29 PM com.chenlb.mmseg4j.Dictionary <init>
 信息: look up in mmseg.dic.path=null
 Mar 28, 2009 4:35:29 PM com.chenlb.mmseg4j.Dictionary <init>
