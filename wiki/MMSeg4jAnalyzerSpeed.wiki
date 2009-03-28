@@ -8,12 +8,11 @@
 
 运行：
 
-
-M:\eclipse 3.3.2\workspace\mmseg4j>java -cp bin -Djava.ext.dirs=lib com.chenlb.mmseg4j.example.Perfo
-rmanceAnalyzer txt
-Mar 28, 2009 4:35:02 PM com.chenlb.mmseg4j.Dictionary <init>
+<pre>
+M:\eclipse 3.3.2\workspace\mmseg4j>java -cp bin -Djava.ext.dirs=lib com.chenlb.mmseg4j.example.PerformanceAnalyzer txt
+Mar 28, 2009 4:35:02 PM com.chenlb.mmseg4j.Dictionary &lt;init&gt;
 信息: look up in mmseg.dic.path=null
-Mar 28, 2009 4:35:02 PM com.chenlb.mmseg4j.Dictionary <init>
+Mar 28, 2009 4:35:02 PM com.chenlb.mmseg4j.Dictionary &lt;init&gt;
 信息: look up in user.dir=M:\eclipse 3.3.2\workspace\mmseg4j/data
 Mar 28, 2009 4:35:03 PM com.chenlb.mmseg4j.Dictionary init
 信息: chars loaded time=266ms, line=12638, on file=M:\eclipse 3.3.2\workspace\mmseg4j\data\chars.dic
@@ -31,9 +30,9 @@ simple 模式：
 
 M:\eclipse 3.3.2\workspace\mmseg4j>java -cp bin -Djava.ext.dirs=lib -Dmode=simple com.chenlb.mmseg4j
 .example.PerformanceAnalyzer txt
-Mar 28, 2009 4:35:29 PM com.chenlb.mmseg4j.Dictionary <init>
+Mar 28, 2009 4:35:29 PM com.chenlb.mmseg4j.Dictionary &lt;init&gt;
 信息: look up in mmseg.dic.path=null
-Mar 28, 2009 4:35:29 PM com.chenlb.mmseg4j.Dictionary <init>
+Mar 28, 2009 4:35:29 PM com.chenlb.mmseg4j.Dictionary &lt;init&gt;
 信息: look up in user.dir=M:\eclipse 3.3.2\workspace\mmseg4j/data
 Mar 28, 2009 4:35:29 PM com.chenlb.mmseg4j.Dictionary init
 信息: chars loaded time=203ms, line=12638, on file=M:\eclipse 3.3.2\workspace\mmseg4j\data\chars.dic
