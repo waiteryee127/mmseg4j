@@ -41,4 +41,5 @@ Mar 28, 2009 4:35:29 PM com.chenlb.mmseg4j.Dictionary init
 信息: sort time=78ms
 Mar 28, 2009 4:35:29 PM com.chenlb.mmseg4j.Dictionary init
 信息: load dic use time=547ms
+use 2421ms
 </pre>
