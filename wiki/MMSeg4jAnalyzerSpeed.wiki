@@ -9,7 +9,7 @@
 运行：
 
 
-<blockquote>M:\eclipse 3.3.2\workspace\mmseg4j>java -cp bin -Djava.ext.dirs=lib com.chenlb.mmseg4j.example.Perfo
+M:\eclipse 3.3.2\workspace\mmseg4j>java -cp bin -Djava.ext.dirs=lib com.chenlb.mmseg4j.example.Perfo
 rmanceAnalyzer txt
 Mar 28, 2009 4:35:02 PM com.chenlb.mmseg4j.Dictionary <init>
 信息: look up in mmseg.dic.path=null
@@ -25,11 +25,11 @@ Mar 28, 2009 4:35:03 PM com.chenlb.mmseg4j.Dictionary init
 信息: sort time=109ms
 Mar 28, 2009 4:35:03 PM com.chenlb.mmseg4j.Dictionary init
 信息: load dic use time=859ms
-use 4921ms</blockquote>
+use 4921ms
 
 simple 模式：
 
-<blockquote>M:\eclipse 3.3.2\workspace\mmseg4j>java -cp bin -Djava.ext.dirs=lib -Dmode=simple com.chenlb.mmseg4j
+M:\eclipse 3.3.2\workspace\mmseg4j>java -cp bin -Djava.ext.dirs=lib -Dmode=simple com.chenlb.mmseg4j
 .example.PerformanceAnalyzer txt
 Mar 28, 2009 4:35:29 PM com.chenlb.mmseg4j.Dictionary <init>
 信息: look up in mmseg.dic.path=null
@@ -45,4 +45,4 @@ Mar 28, 2009 4:35:29 PM com.chenlb.mmseg4j.Dictionary init
 信息: sort time=78ms
 Mar 28, 2009 4:35:29 PM com.chenlb.mmseg4j.Dictionary init
 信息: load dic use time=547ms
-use 2421ms</blockquote>
+use 2421ms
