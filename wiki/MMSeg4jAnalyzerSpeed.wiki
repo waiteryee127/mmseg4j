@@ -25,9 +25,10 @@ Mar 28, 2009 4:35:03 PM com.chenlb.mmseg4j.Dictionary init
 Mar 28, 2009 4:35:03 PM com.chenlb.mmseg4j.Dictionary init
 信息: load dic use time=859ms
 use 4921ms
+</pre>
 
 simple 模式：
-
+<pre>
 M:\eclipse 3.3.2\workspace\mmseg4j>java -cp bin -Djava.ext.dirs=lib -Dmode=simple com.chenlb.mmseg4j
 .example.PerformanceAnalyzer txt
 Mar 28, 2009 4:35:29 PM com.chenlb.mmseg4j.Dictionary &lt;init&gt;
@@ -45,3 +46,4 @@ Mar 28, 2009 4:35:29 PM com.chenlb.mmseg4j.Dictionary init
 Mar 28, 2009 4:35:29 PM com.chenlb.mmseg4j.Dictionary init
 信息: load dic use time=547ms
 use 2421ms
+</pre>
