@@ -1,5 +1,5 @@
 #labels Featured
-看一下 mmseg4j 的分词速度如何，下载了两篇长篇小说共2.5M左右，可以到 <a href="http://mmseg4j.googlecode.com/files/txt.zip">http://mmseg4j.googlecode.com/files/txt.zip</a>。2.5M的数据，用Complex模式是 5.3秒左右，不知是快还是慢（因为没有对比），Simple 模式用了2.9秒。
+看一下 mmseg4j 的分词速度如何，下载了两篇长篇小说共2.5M左右，可以到 <a href="http://mmseg4j.googlecode.com/files/txt.zip">http://mmseg4j.googlecode.com/files/txt.zip</a>。2.5M的数据，用Complex模式是 5.3秒左右，不知是快还是慢（因为没有对比），Simple 模式用了2.9秒(AMD athlon 64 2800+ 1G内存 xp)。
 
 代码有两个版本：用Analyzer方式的和不依赖Lucene Analyzer方式的，前者比较简洁
 
