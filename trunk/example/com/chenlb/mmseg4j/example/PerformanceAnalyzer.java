@@ -30,10 +30,10 @@ public class PerformanceAnalyzer {
 		File[] txts = path.listFiles(new FilenameFilter() {
 
 			public boolean accept(File dir, String name) {
-			
+
 				return name.endsWith(".txt");
 			}
-			
+
 		});
 		long time = 0, size = 0;
 		for(int i=0; i<n; i++) {
@@ -46,7 +46,7 @@ public class PerformanceAnalyzer {
 				BufferedWriter bw = new BufferedWriter(osw);
 				long start = System.currentTimeMillis();
 				for(Token t= new Token(); (t=TokenUtils.nextToken(ts, t)) !=null;) {
-					bw.append(new String(t.term())).append("\r\n");
+					bw.append(t.toString()).append("\r\n");
 				}
 				long t = System.currentTimeMillis() - start;
 				time += t;
@@ -56,12 +56,12 @@ public class PerformanceAnalyzer {
 		}
 		System.out.println("===avg=== size="+(size/1024)+"kb, use "+time+"ms, speed="+speed(size, time)+"kb/s");
 	}
-	
+
 	/**
 	 * -Dmode=simple, default is complex
 	 * @param args args[0] txt path
 	 * @author chenlb 2009-3-28 下午02:19:52
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	public static void main(String[] args) throws Exception {
 		int n = 1;
@@ -86,7 +86,7 @@ public class PerformanceAnalyzer {
 			try {
 				n = Integer.parseInt(args[1]);
 			} catch (NumberFormatException e) {
-				
+
 			}
 		}
 		File path = new File(txtPath);
@@ -101,12 +101,12 @@ public class PerformanceAnalyzer {
 		System.out.println("\t-Dfile.encoding=gbk, txt file encoding defalut is os");
 		System.out.println("\tPerformance <txt path> - is a directory that contain *.txt");
 	}
-	
+
 	private static double speed(long size, long time) {
 		if(time == 0) {
 			time = 1;
 		}
 		return (size*1000)/(time*1024);
 	}
-	
+
 }

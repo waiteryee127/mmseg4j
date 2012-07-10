@@ -6,9 +6,9 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import org.apache.lucene.analysis.Tokenizer;
-import org.apache.solr.analysis.BaseTokenizerFactory;
-import org.apache.solr.common.ResourceLoader;
-import org.apache.solr.util.plugin.ResourceLoaderAware;
+import org.apache.lucene.analysis.util.ResourceLoader;
+import org.apache.lucene.analysis.util.ResourceLoaderAware;
+import org.apache.lucene.analysis.util.TokenizerFactory;
 
 import com.chenlb.mmseg4j.ComplexSeg;
 import com.chenlb.mmseg4j.Dictionary;
@@ -17,13 +17,13 @@ import com.chenlb.mmseg4j.Seg;
 import com.chenlb.mmseg4j.SimpleSeg;
 import com.chenlb.mmseg4j.analysis.MMSegTokenizer;
 
-public class MMSegTokenizerFactory extends BaseTokenizerFactory implements ResourceLoaderAware {
+public class MMSegTokenizerFactory extends TokenizerFactory implements ResourceLoaderAware {
 
 	static final Logger log = Logger.getLogger(MMSegTokenizerFactory.class.getName());
 	/* 线程内共享 */
 	private ThreadLocal<MMSegTokenizer> tokenizerLocal = new ThreadLocal<MMSegTokenizer>();
 	private Dictionary dic = null;
-	
+
 	private Seg newSeg(Map<String, String> args) {
 		Seg seg = null;
 		log.info("create new Seg ...");
@@ -41,7 +41,7 @@ public class MMSegTokenizerFactory extends BaseTokenizerFactory implements Resou
 		}
 		return seg;
 	}
-	
+
 	public Tokenizer create(Reader input) {
 		MMSegTokenizer tokenizer = tokenizerLocal.get();
 		if(tokenizer == null) {
@@ -63,14 +63,15 @@ public class MMSegTokenizerFactory extends BaseTokenizerFactory implements Resou
 		tokenizerLocal.set(tokenizer);
 		return tokenizer;
 	}
-	
+
+	@Override
 	public void inform(ResourceLoader loader) {
 		String dicPath = args.get("dicPath");
-		
+
 		dic = Utils.getDict(dicPath, loader);
-		
+
 		log.info("dic load... in="+dic.getDicPath().toURI());
 	}
 
-	
+
 }

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:ivy="antlib:org.apache.ivy.ant" name="mmseg4j" default="dist">
+<project name="mmseg4j" default="dist"
+	xmlns:ivy="antlib:org.apache.ivy.ant"
+	xmlns:artifact="antlib:org.apache.maven.artifact.ant">
 
 	<property file="build.properties" />
 	<property name="project.name" value="${ant.project.name}" />
@@ -11,12 +13,28 @@
 	<property name="build.test.dir" value="build/classes/test" />
 	<property name="build.classes.dir" value="build/classes" />
 	<property name="extlib.dir" value="lib" />
-	
+
 	<property name="ivy.jar.dir" value="${basedir}/ivy" />
-	<property name="ivy.jar.file" value="${ivy.jar.dir}/ivy.jar" />
+	<property name="ivy.jar.file" value="${ivy.jar.dir}/ivy-${ivy.install.version}.jar" />
 
 	<property name="lib.dir" location="lib" />
-	
+
+	<!-- define Maven coordinates -->
+	<property name="groupId" value="com.chenlb.mmseg4j" />
+	<property name="artifactId" value="mmseg4j-core" />
+	<!--property name="version" value="1.8.6-SNAPSHOT" /-->
+
+	<!-- define artifacts' name, which follows the convention of Maven -->
+	<property name="maven-jar" value="${build.dir}/${artifactId}-${version}.jar" />
+	<property name="maven-javadoc-jar" value="${build.dir}/${artifactId}-${version}-javadoc.jar" />
+	<property name="maven-sources-jar" value="${build.dir}/${artifactId}-${version}-sources.jar" />
+
+	<!-- defined maven snapshots and staging repository id and url -->
+	<property name="maven-snapshots-repository-id" value="sonatype-nexus-snapshots" />
+	<property name="maven-snapshots-repository-url" value="https://oss.sonatype.org/content/repositories/snapshots/" />
+	<property name="maven-staging-repository-id" value="sonatype-nexus-staging" />
+	<property name="maven-staging-repository-url" value="https://oss.sonatype.org/service/local/staging/deploy/maven2/" />
+
 	<!-- 定义类路径 -->
 	<path id="compile.class.path">
 		<fileset dir="${lib.dir}/compile">
@@ -29,7 +47,7 @@
 			<include name="**" />
 		</dirset>
 	</path>
-	
+
 	<target name="resolve" description="--> retrieve dependencies with ivy" depends="install-ivy">
 		<ivy:retrieve pattern="${ivy.lib.dir}/[conf]/[artifact]-[revision].[ext]" />
 	</target>
@@ -46,13 +64,13 @@
 		</path>
 		<taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpathref="ivy.lib.path" />
 	</target>
-	
+
 	<target name="init" depends="resolve">
 		<mkdir dir="${build.java.dir}" />
 	</target>
 
 	<target name="compile.java" depends="init">
-		<javac destdir="${build.java.dir}" 
+		<javac destdir="${build.java.dir}"
 			debug="true" debuglevel="lines,source"
 			encoding="UTF-8" source="1.5" target="1.5">
 			<src path="${src.java.dir}" />
@@ -82,15 +100,17 @@
 				<attribute name="Main-Class" value="com.chenlb.mmseg4j.example.Complex"/>
 			</manifest>
 		</jar>
+		<jar destfile="${build.dir}/${project.name}-all-${version}-sources.jar" basedir="${src.java.dir}" />
 	</target>
 	<target name="jar-with-dic" depends="build.java">
 		<copy file="data/words.dic" todir="${build.java.dir}/data" preservelastmodified="true" />
-		<jar destfile="${build.dir}/${project.name}-all-${version}-with-dic.jar" basedir="${build.java.dir}" >
+		<jar destfile="${build.dir}/${project.name}-all-with-dic-${version}.jar" basedir="${build.java.dir}" >
 			<manifest>
 				<attribute name="Main-Class" value="com.chenlb.mmseg4j.example.Complex"/>
 			</manifest>
 		</jar>
 		<delete file="${build.java.dir}/data/words.dic" />
+		<jar destfile="${build.dir}/${project.name}-all-with-dic-${version}-sources.jar" basedir="${src.java.dir}" />
 	</target>
 	<target name="jar.core" depends="build.java">
 		<jar destfile="${build.dir}/${project.name}-core-${version}.jar" basedir="${build.java.dir}" >
@@ -100,10 +120,14 @@
 			<exclude name="**/analysis/**"/>
 			<exclude name="**/solr/**"/>
 		</jar>
+		<jar jarfile="${build.dir}/${project.name}-core-${version}-sources.jar" basedir="${src.java.dir}">
+			<exclude name="**/analysis/**"/>
+			<exclude name="**/solr/**"/>
+		</jar>
 	</target>
 	<target name="jar.core-with-dic" depends="build.java">
 		<copy file="data/words.dic" todir="${build.java.dir}/data" preservelastmodified="true" />
-		<jar destfile="${build.dir}/${project.name}-core-${version}-with-dic.jar" basedir="${build.java.dir}" >
+		<jar destfile="${build.dir}/${project.name}-core-with-dic-${version}.jar" basedir="${build.java.dir}" >
 			<manifest>
 				<attribute name="Main-Class" value="com.chenlb.mmseg4j.example.Complex"/>
 			</manifest>
@@ -111,14 +135,24 @@
 			<exclude name="**/solr/**"/>
 		</jar>
 		<delete file="${build.java.dir}/data/words.dic" />
+		<jar jarfile="${build.dir}/${project.name}-core-with-dic-${version}-sources.jar" basedir="${src.java.dir}">
+			<exclude name="**/analysis/**"/>
+			<exclude name="**/solr/**"/>
+		</jar>
 	</target>
 	<target name="jar.analysis" depends="build.java">
 		<jar destfile="${build.dir}/${project.name}-analysis-${version}.jar" basedir="${build.java.dir}" >
 			<include name="**/analysis/**"/>
 		</jar>
+		<jar destfile="${build.dir}/${project.name}-analysis-${version}-sources.jar" basedir="${src.java.dir}" >
+			<include name="**/analysis/**"/>
+		</jar>
 	</target>
 	<target name="jar.solr" depends="build.java">
 		<jar destfile="${build.dir}/${project.name}-solr-${version}.jar" basedir="${build.java.dir}" >
+			<include name="**/solr/**"/>
+		</jar>
+		<jar destfile="${build.dir}/${project.name}-solr-${version}-sources.jar" basedir="${src.java.dir}" >
 			<include name="**/solr/**"/>
 		</jar>
 	</target>
@@ -128,7 +162,7 @@
 		<copy todir="temp-zip/dist" preservelastmodified="true">
 			<fileset dir="${build.dir}">
 				<include name="${project.name}-*-${version}.jar"/>
-				<include name="${project.name}-core-${version}-with-dic.jar"/>
+				<include name="${project.name}-core-with-dic-${version}.jar"/>
 				<exclude name="${project.name}-all-${version}.jar"/>
 			</fileset>
 		<!--
@@ -137,11 +171,11 @@
 			</fileset>
 		-->
 		</copy>
-		
+
 		<copy todir="temp-zip" preservelastmodified="true">
 			<fileset dir="${build.dir}">
 				<include name="${project.name}-all-${version}.jar"/>
-				<include name="${project.name}-all-${version}-with-dic.jar"/>
+				<include name="${project.name}-all-with-dic-${version}.jar"/>
 			</fileset>
 			<fileset dir="">
 				<include name="*.txt"/>
@@ -172,4 +206,53 @@
 			<fileset dir="${build.classes.dir}"></fileset>
 		</delete>
 	</target>
+
+	<!-- ==============start mvn=============== -->
+    <target name="deploy" depends="dist" description="deploy snapshot version to Maven snapshot repository">
+		<artifact:mvn>
+			<arg value="org.apache.maven.plugins:maven-deploy-plugin:2.6:deploy-file" />
+			<arg value="-Durl=${maven-snapshots-repository-url}" />
+			<arg value="-DrepositoryId=${maven-snapshots-repository-id}" />
+			<arg value="-DpomFile=pom.xml" />
+			<arg value="-Dfile=${maven-jar}" />
+		</artifact:mvn>
+    </target>
+
+    <!-- before this, update project version (both build.xml and pom.xml) from SNAPSHOT to RELEASE -->
+	<target name="stage" depends="dist" description="deploy release version to Maven staging repository">
+		<!-- sign and deploy the main artifact -->
+		<artifact:mvn>
+			<arg value="org.apache.maven.plugins:maven-gpg-plugin:1.3:sign-and-deploy-file" />
+			<arg value="-Durl=${maven-staging-repository-url}" />
+			<arg value="-DrepositoryId=${maven-staging-repository-id}" />
+			<arg value="-DpomFile=pom.xml" />
+			<arg value="-Dfile=${maven-jar}" />
+	        <arg value="-Pgpg" />
+		</artifact:mvn>
+
+		<!-- sign and deploy the sources artifact -->
+		<artifact:mvn>
+			<arg value="org.apache.maven.plugins:maven-gpg-plugin:1.3:sign-and-deploy-file" />
+			<arg value="-Durl=${maven-staging-repository-url}" />
+			<arg value="-DrepositoryId=${maven-staging-repository-id}" />
+			<arg value="-DpomFile=pom.xml" />
+			<arg value="-Dfile=${maven-sources-jar}" />
+			<arg value="-Dclassifier=sources" />
+	        <arg value="-Pgpg" />
+		</artifact:mvn>
+
+		<!-- sign and deploy the javadoc artifact -->
+		<!--
+		<artifact:mvn>
+			<arg value="org.apache.maven.plugins:maven-gpg-plugin:1.3:sign-and-deploy-file" />
+			<arg value="-Durl=${maven-staging-repository-url}" />
+			<arg value="-DrepositoryId=${maven-staging-repository-id}" />
+			<arg value="-DpomFile=pom.xml" />
+			<arg value="-Dfile=${maven-javadoc-jar}" />
+			<arg value="-Dclassifier=javadoc" />
+	        <arg value="-Pgpg" />
+		</artifact:mvn>
+		-->
+	</target>
+	<!-- ==============end mvn=============== -->
 </project>

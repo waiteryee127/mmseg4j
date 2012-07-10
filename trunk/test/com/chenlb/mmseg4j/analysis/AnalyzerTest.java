@@ -9,6 +9,7 @@ import junit.framework.TestCase;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.Token;
 import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.Tokenizer;
 
 public class AnalyzerTest extends TestCase {
 
@@ -30,7 +31,7 @@ public class AnalyzerTest extends TestCase {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void testComplex() {
 		Analyzer analyzer = new ComplexAnalyzer();
 		try {
@@ -49,7 +50,7 @@ public class AnalyzerTest extends TestCase {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void testMaxWord() {
 		Analyzer analyzer = new MaxWordAnalyzer();
 		try {
@@ -68,24 +69,25 @@ public class AnalyzerTest extends TestCase {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void testCutLeeterDigitFilter() {
 		try {
 			txt = "mb991ch cq40-519tx mmseg4j ";
 			printlnToken(txt, new MMSegAnalyzer() {
 
 				@Override
-				public TokenStream tokenStream(String fieldName, Reader reader) {
-					
-					return new CutLetterDigitFilter(super.tokenStream(fieldName, reader));
+				protected TokenStreamComponents createComponents(String fieldName, Reader reader) {
+					Tokenizer t = new MMSegTokenizer(newSeg(), reader);
+					return new TokenStreamComponents(t, new CutLetterDigitFilter(t));
 				}
-				
+
+
 			});
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void printlnToken(String txt, Analyzer analyzer) throws IOException {
 		System.out.println("---------"+txt.length()+"\n"+txt);
 		TokenStream ts = analyzer.tokenStream("text", new StringReader(txt));
@@ -97,7 +99,7 @@ public class AnalyzerTest extends TestCase {
 			TermAttribute termAtt = (TermAttribute)ts.getAttribute(TermAttribute.class);
 			OffsetAttribute offsetAtt = (OffsetAttribute)ts.getAttribute(OffsetAttribute.class);
 			TypeAttribute typeAtt = (TypeAttribute)ts.getAttribute(TypeAttribute.class);
-			
+
 			System.out.println("("+termAtt.term()+","+offsetAtt.startOffset()+","+offsetAtt.endOffset()+",type="+typeAtt.type()+")");
 		}*/
 		for(Token t= new Token(); (t=TokenUtils.nextToken(ts, t)) !=null;) {

@@ -7,11 +7,14 @@ import junit.framework.TestCase;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
+import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.CorruptIndexException;
+import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.index.IndexWriter.MaxFieldLength;
-import org.apache.lucene.queryParser.ParseException;
-import org.apache.lucene.queryParser.QueryParser;
+import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.queryparser.classic.ParseException;
+import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
@@ -27,7 +30,7 @@ public class LuceneUseSimpleAnalyzerTest extends TestCase {
 
 	Directory dir;
 	Analyzer analyzer;
-	
+
 	@Override
 	protected void setUp() throws Exception {
 		String txt = "京华时报1月23日报道 昨天，受一股来自中西伯利亚的强冷空气影响，本市出现大风降温天气，白天最高气温只有零下7摄氏度，同时伴有6到7级的偏北风。";
@@ -36,19 +39,22 @@ public class LuceneUseSimpleAnalyzerTest extends TestCase {
 		analyzer = new ComplexAnalyzer();
 		//analyzer = new MaxWordAnalyzer();
 		dir = new RAMDirectory();
-		IndexWriter iw = new IndexWriter(dir, analyzer, MaxFieldLength.UNLIMITED);
+
+		IndexWriterConfig iwc = new IndexWriterConfig(Version.LUCENE_40, analyzer);
+
+		IndexWriter iw = new IndexWriter(dir, iwc);
 		Document doc = new Document();
-		doc.add(new Field("txt", txt, Field.Store.YES, Field.Index.ANALYZED));
+		doc.add(new TextField("txt", txt, Field.Store.YES));
 		iw.addDocument(doc);
 		iw.commit();
-		iw.optimize();
 		iw.close();
 	}
 
 	public void testSearch() {
 		try {
-			IndexSearcher searcher = new IndexSearcher(dir);
-			QueryParser qp = new QueryParser(Version.LUCENE_29, "txt", analyzer);
+			IndexReader ir = DirectoryReader.open(dir);
+			IndexSearcher searcher = new IndexSearcher(ir);
+			QueryParser qp = new QueryParser(Version.LUCENE_40, "txt", analyzer);
 			Query q = qp.parse("西伯利亚");	//2008年底
 			System.out.println(q);
 			TopDocs tds = searcher.search(q, 10);
@@ -58,15 +64,15 @@ public class LuceneUseSimpleAnalyzerTest extends TestCase {
 				System.out.println(searcher.doc(sd.doc).get("txt"));
 			}
 		} catch (CorruptIndexException e) {
-			
+
 			e.printStackTrace();
 		} catch (IOException e) {
-			
+
 			e.printStackTrace();
 		} catch (ParseException e) {
-			
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
+
 }
