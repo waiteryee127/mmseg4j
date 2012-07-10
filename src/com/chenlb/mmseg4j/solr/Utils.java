@@ -2,7 +2,7 @@ package com.chenlb.mmseg4j.solr;
 
 import java.io.File;
 
-import org.apache.solr.common.ResourceLoader;
+import org.apache.lucene.analysis.util.ResourceLoader;
 import org.apache.solr.core.SolrResourceLoader;
 
 import com.chenlb.mmseg4j.Dictionary;

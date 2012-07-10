@@ -22,7 +22,7 @@ public class Effect {
 
 	private File path;
 	private Analyzer analyzer;
-	
+
 	public Effect(Analyzer analyzer) {
 		super();
 		path = new File("txt");
@@ -38,10 +38,10 @@ public class Effect {
 		File[] txts = path.listFiles(new FilenameFilter() {
 
 			public boolean accept(File dir, String name) {
-			
+
 				return name.endsWith(".txt");
 			}
-			
+
 		});
 		long time = 0, size = 0;
 		for(int i=0; i<n; i++) {
@@ -50,10 +50,10 @@ public class Effect {
 				int s = ftxt.available();
 				size += s;
 				BufferedReader reader = new BufferedReader(new InputStreamReader(ftxt));
-				
+
 				OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(new File(txt.getAbsoluteFile()+"."+outputChipName+".word")));
 				BufferedWriter bw = new BufferedWriter(osw);
-				
+
 				String line = null;
 				long start = System.currentTimeMillis();
 				while((line = reader.readLine()) != null) {
@@ -61,11 +61,11 @@ public class Effect {
 					bw.append(line).append("\r\n");
 					TokenStream ts = analyzer.tokenStream("text", new StringReader(line));
 					for(Token t= new Token(); (t=TokenUtils.nextToken(ts, t)) !=null;) {
-						bw.append(new String(t.termBuffer(), 0, t.termLength())).append(" | ");
+						bw.append(new String(t.buffer(), 0, t.length())).append(" | ");
 					}
 					bw.append("\r\n");
 				}
-				
+
 				long t = System.currentTimeMillis() - start;
 				time += t;
 				System.out.println("size="+(s/1024)+"kb, use "+t+"ms, speed="+speed(s, t)+"kb/s, file="+txt.getName());
@@ -74,12 +74,12 @@ public class Effect {
 		}
 		System.out.println("size="+(size/1024)+"kb, use "+time+"ms, speed="+speed(size, time)+"kb/s");
 	}
-	
+
 	/**
 	 * -Dmode=simple, default is complex
 	 * @param args args[0] txt path
 	 * @author chenlb 2009-3-28 下午02:19:52
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	public static void main(String[] args) throws Exception {
 		int n = 1;
@@ -104,7 +104,7 @@ public class Effect {
 			try {
 				n = Integer.parseInt(args[1]);
 			} catch (NumberFormatException e) {
-				
+
 			}
 		}
 		File path = new File(args[0]);
@@ -119,7 +119,7 @@ public class Effect {
 		System.out.println("\t-Danalyzer=paoding, defalut is mmseg4j");
 		System.out.println("\tEffect <txt path> - is a directory that contain *.txt");
 	}
-	
+
 	private static double speed(long size, long time) {
 		if(time == 0) {
 			time = 1;
