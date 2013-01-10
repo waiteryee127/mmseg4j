@@ -3,7 +3,7 @@
   <parent>
     <artifactId>mmseg4j-parent</artifactId>
     <groupId>com.chenlb.mmseg4j</groupId>
-    <version>1.9.0</version>
+    <version>1.9.1-SNAPSHOT</version>
     <relativePath>..</relativePath>
   </parent>
   <artifactId>mmseg4j-solr</artifactId>
@@ -121,6 +121,6 @@
 		<scope>test</scope>
 	</dependency>
   </dependencies>
-  <version>1.9.0</version>
+  <version>1.9.1-SNAPSHOT</version>
   <name>mmseg4j-solr</name>
 </project>
