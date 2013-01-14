@@ -4,74 +4,62 @@
 	<property file="build.properties" />
 	<property name="project.name" value="${ant.project.name}" />
 
-	<property name="src.java.dir" value="src" />
-	<property name="src.test.dir" value="test" />
-	<property name="build.dir" value="build" />
-	<property name="build.java.dir" value="build/classes/java" />
-	<property name="build.test.dir" value="build/classes/test" />
-	<property name="build.classes.dir" value="build/classes" />
-	<property name="extlib.dir" value="lib" />
-
-	<property name="ivy.jar.dir" value="${basedir}/ivy" />
-	<property name="ivy.jar.file" value="${ivy.jar.dir}/ivy-${ivy.install.version}.jar" />
-
-	<property name="lib.dir" location="lib" />
-
-	<!-- define Maven coordinates -->
-	<property name="groupId" value="com.chenlb.mmseg4j" />
-	<property name="artifactId" value="mmseg4j-core" />
-
-	<!-- 定义类路径 -->
-	<path id="compile.class.path">
-		<fileset dir="${lib.dir}/compile">
-			<include name="*.jar" />
-		</fileset>
-	</path>
-
-	<path id="java.class.path">
-		<dirset dir="${build.java}">
-			<include name="**" />
-		</dirset>
-	</path>
-
+	<property name="dist.dir" value="dist" />
 	<target name="init">
-		<mkdir dir="${build.java.dir}" />
+		<mkdir dir="${dist.dir}" />
 	</target>
 
-	<target name="zip">
-		<delete file="${build.dir}/${project.name}-${version}.zip"></delete>
-		<!--mkdir dir="temp-zip/lib"/-->
-		<copy todir="temp-zip/dist" preservelastmodified="true">
-			<fileset dir="${build.dir}">
-				<include name="${project.name}-*-${version}.jar"/>
-				<include name="${project.name}-core-with-dic-${version}.jar"/>
-				<exclude name="${project.name}-all-${version}.jar"/>
-			</fileset>
-		<!--
-			<fileset dir="lib">
+	<target name="zip" depends="init">
+		<delete file="${dist.dir}/${project.name}-${version}.zip">
+		</delete>
+		<copy todir="temp-zip/${project.name}-${version}/dist" preservelastmodified="true">
+			<fileset dir="${project.name}-core/target" >
 				<include name="*.jar"/>
+				<exclude name="*-sources.jar"/>
+				<exclude name="*-javadoc.jar"/>
 			</fileset>
-		-->
+			<fileset dir="${project.name}-analysis/target" >
+				<include name="*.jar"/>
+				<exclude name="*-sources.jar"/>
+				<exclude name="*-javadoc.jar"/>
+			</fileset>
+			<fileset dir="${project.name}-solr/target" >
+				<include name="*.jar"/>
+				<exclude name="*-sources.jar"/>
+				<exclude name="*-javadoc.jar"/>
+			</fileset>
 		</copy>
 
-		<copy todir="temp-zip" preservelastmodified="true">
-			<fileset dir="${build.dir}">
-				<include name="${project.name}-all-${version}.jar"/>
-				<include name="${project.name}-all-with-dic-${version}.jar"/>
-			</fileset>
-			<fileset dir="">
-				<include name="*.txt"/>
-				<include name="src/**"/>
-				<!--include name="lib/**"/-->
-				<include name="data/*.dic"/>
-				<include name="build.properties"/>
-				<include name="build.xml"/>
-				<include name="ivy.xml"/>
+		<copy todir="temp-zip/${project.name}-${version}/${project.name}-core" preservelastmodified="true">
+			<fileset dir="${project.name}-core">
+				<include name="src/**" />
+				<include name="pom.xml" />
 			</fileset>
 		</copy>
-		<zip destfile="${build.dir}/${project.name}-${version}.zip" basedir="temp-zip">
+		<copy todir="temp-zip/${project.name}-${version}/${project.name}-analysis" preservelastmodified="true">
+			<fileset dir="${project.name}-analysis">
+				<include name="src/**" />
+				<include name="pom.xml" />
+			</fileset>
+		</copy>
+		<copy todir="temp-zip/${project.name}-${version}/${project.name}-solr" preservelastmodified="true">
+			<fileset dir="${project.name}-solr">
+				<include name="src/**" />
+				<include name="pom.xml" />
+			</fileset>
+		</copy>
+		<copy todir="temp-zip/${project.name}-${version}" preservelastmodified="true">
+			<fileset dir=".">
+				<include name="*.txt" />
+				<include name="build.properties"/>
+				<include name="build.xml"/>
+				<include name="pom.xml"/>
+			</fileset>
+		</copy>
+		<zip destfile="${dist.dir}/${project.name}-${version}.zip" basedir="temp-zip">
 		</zip>
-		<delete dir="temp-zip"></delete>
+		<delete dir="temp-zip">
+		</delete>
 	</target>
 
 </project>
