@@ -43,16 +43,16 @@ mmseg4j实现的功能详情请看：http://mmseg4j.googlecode.com/svn/trunk/CHA
         <tokenizer class="com.chenlb.mmseg4j.solr.MMSegTokenizerFactory" mode="simple" dicPath="n:/OpenSource/apache-solr-1.3.0/example/solr/my_dic"/>
       </analyzer>
     </fieldType>
-    
+
 dicPath 指定词库位置（每个MMSegTokenizerFactory可以指定不同的目录，当是相对目录时，是相对 solr.home 的目录），mode 指定分词模式（simple|complex|max-word，默认是max-word）。
 
 6、运行，词典用mmseg.dic.path属性指定、在classpath 目录下或在当前目录下的data目录，默认是 classpath/data 目录。如果使用 mmseg4j-*-with-dic.jar 包可以不指定词库目录（如果指定也可以，它们也可以被加载）。
 
-java -jar mmseg4j-core-1.8-with-dic.jar 这里是字符串。
+java -jar mmseg4j-core-1.9.0.jar 这里是字符串。
 
-java -cp .;mmseg4j-1.6.jar -Dmmseg.dic.path=./other-dic com.chenlb.mmseg4j.example.Simple 这里是字符串。
+java -cp .;mmseg4j-core-1.9.0.jar -Dmmseg.dic.path=./other-dic com.chenlb.mmseg4j.example.Simple 这里是字符串。
 
-java -cp .;mmseg4j-1.6.jar com.chenlb.mmseg4j.example.MaxWord 这里是字符串
+java -cp .;mmseg4j-core-1.9.0.jar com.chenlb.mmseg4j.example.MaxWord 这里是字符串
 
 7、一些字符的处理
 英文、俄文、希腊、数字（包括①㈠⒈）的分出一连串的。目前版本没有处理小数字问题，
@@ -69,7 +69,7 @@ java -cp .;mmseg4j-1.6.jar com.chenlb.mmseg4j.example.MaxWord 这里是字符串
  * dicPath 是指定词库的目录，特性与MMSegTokenizerFactory中的dicPath一样（相对目录是，是相对 solr.home）。
  * check 是指是否检测词库，其值是true 或 on。
  * reload 是否尝试加载词库，其值是 true 或 on。此值为 true，会忽视 check 参数。
- 
+
 solrconfig.xml：
 
 	<requestHandler name="/mmseg4j" class="com.chenlb.mmseg4j.solr.MMseg4jHandler" >
@@ -85,7 +85,9 @@ solrconfig.xml：
 
 1.7.2 与 1.6.2 开始核心的程序与 lucene 和 solr 扩展分开打包，方便兼容低版本的 lucene，同时给出低版本（<= lucene 2.2）的 lucene 扩展请仿照 MMSegTokenizer.java。
 
-可以在 http://code.google.com/p/mmseg4j/issues/list 提出希望 mmseg4j 有的功能。 
+1.9.0 支持 solr/lucene 4.0.0 正式版。
+
+可以在 http://code.google.com/p/mmseg4j/issues/list 提出希望 mmseg4j 有的功能。
 
 历史版本：
 
