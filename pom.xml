@@ -42,7 +42,7 @@
   	<system>code.google.com</system>
   </issueManagement>
   <properties>
-  	<mmseg4j.version>1.9.0</mmseg4j.version>
+  	<mmseg4j.version>1.9.1-SNAPSHOT</mmseg4j.version>
   </properties>
 
   <modules>
