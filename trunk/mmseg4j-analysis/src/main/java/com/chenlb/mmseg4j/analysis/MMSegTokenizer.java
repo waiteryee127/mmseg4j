@@ -29,9 +29,10 @@ public class MMSegTokenizer extends Tokenizer {
 		typeAtt = addAttribute(TypeAttribute.class);
 	}
 
-	public void reset(Reader input) throws IOException {
-		//super.reset(input);
-		setReader(input);
+	public void reset() throws IOException {
+		//lucene 4.0
+		//org.apache.lucene.analysis.Tokenizer.setReader(Reader)
+		//setReader 自动被调用, input 自动被设置。
 		mmSeg.reset(input);
 	}
 

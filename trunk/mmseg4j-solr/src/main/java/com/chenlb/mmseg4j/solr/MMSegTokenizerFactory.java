@@ -48,7 +48,7 @@ public class MMSegTokenizerFactory extends TokenizerFactory implements ResourceL
 			tokenizer = newTokenizer(input);
 		} else {
 			try {
-				tokenizer.reset(input);
+				tokenizer.setReader(input);
 			} catch (IOException e) {
 				tokenizer = newTokenizer(input);
 				log.info("MMSegTokenizer.reset i/o error by:"+e.getMessage());
