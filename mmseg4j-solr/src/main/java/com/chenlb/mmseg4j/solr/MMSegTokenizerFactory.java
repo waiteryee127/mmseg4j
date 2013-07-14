@@ -9,6 +9,7 @@ import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.analysis.util.ResourceLoader;
 import org.apache.lucene.analysis.util.ResourceLoaderAware;
 import org.apache.lucene.analysis.util.TokenizerFactory;
+import org.apache.lucene.util.AttributeSource.AttributeFactory;
 
 import com.chenlb.mmseg4j.ComplexSeg;
 import com.chenlb.mmseg4j.Dictionary;
@@ -23,6 +24,10 @@ public class MMSegTokenizerFactory extends TokenizerFactory implements ResourceL
 	/* 线程内共享 */
 	private ThreadLocal<MMSegTokenizer> tokenizerLocal = new ThreadLocal<MMSegTokenizer>();
 	private Dictionary dic = null;
+
+	public MMSegTokenizerFactory(Map<String, String> args) {
+		super(args);
+	}
 
 	private Seg newSeg(Map<String, String> args) {
 		Seg seg = null;
@@ -42,7 +47,8 @@ public class MMSegTokenizerFactory extends TokenizerFactory implements ResourceL
 		return seg;
 	}
 
-	public Tokenizer create(Reader input) {
+	@Override
+	public Tokenizer create(AttributeFactory factory, Reader input) {
 		MMSegTokenizer tokenizer = tokenizerLocal.get();
 		if(tokenizer == null) {
 			tokenizer = newTokenizer(input);
@@ -59,19 +65,18 @@ public class MMSegTokenizerFactory extends TokenizerFactory implements ResourceL
 	}
 
 	private MMSegTokenizer newTokenizer(Reader input) {
-		MMSegTokenizer tokenizer = new MMSegTokenizer(newSeg(getArgs()), input);
+		MMSegTokenizer tokenizer = new MMSegTokenizer(newSeg(getOriginalArgs()), input);
 		tokenizerLocal.set(tokenizer);
 		return tokenizer;
 	}
 
 	@Override
 	public void inform(ResourceLoader loader) {
-		String dicPath = args.get("dicPath");
+		String dicPath = getOriginalArgs().get("dicPath");
 
 		dic = Utils.getDict(dicPath, loader);
 
 		log.info("dic load... in="+dic.getDicPath().toURI());
 	}
-
 
 }
