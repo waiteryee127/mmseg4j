@@ -30,10 +30,9 @@ public class MaxWordSegTest {
 	}
 
 	@Test
-	@Ignore
 	public void testEffect2() throws IOException {
 		String words = segW.segWords("西伯利亚", "|");
-		Assert.assertEquals("西|伯利|利亚", words);
+		Assert.assertEquals("西|伯|利|亚", words);
 	}
 
 	@Test

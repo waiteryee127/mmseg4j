@@ -5,23 +5,23 @@ import java.util.List;
 
 /**
  * 最多分词. 在ComplexSeg基础上把长的词拆.
- * 
+ *
  * @author chenlb 2009-4-6 下午08:12:11
  */
 public class MaxWordSeg extends ComplexSeg {
-	
+
 	public MaxWordSeg(Dictionary dic) {
 		super(dic);
 	}
 
 	public Chunk seg(Sentence sen) {
-		
+
 		Chunk chunk = super.seg(sen);
 		if(chunk != null) {
 			List<Word> cks = new ArrayList<Word>();
 			for(int i=0; i<chunk.getCount(); i++) {
 				Word word = chunk.words[i];
-				
+
 				if(word.getLength() < 3) {
 					cks.add(word);
 				} else {
@@ -38,7 +38,7 @@ public class MaxWordSeg extends ComplexSeg {
 						} else if(offset >= end) {	//有单字
 							cks.add(new Word(chs, senStartOffset, offset, 1));
 							end = offset+1;
-							
+
 						}
 					}
 					if(end > -1 && end < wordEnd) {
@@ -50,7 +50,7 @@ public class MaxWordSeg extends ComplexSeg {
 			chunk.words = cks.toArray(new Word[cks.size()]);
 			chunk.count = cks.size();
 		}
-		
+
 		return chunk;
 	}
 

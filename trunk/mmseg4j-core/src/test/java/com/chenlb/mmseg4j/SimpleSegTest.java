@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.chenlb.mmseg4j.example.Simple;
@@ -31,17 +30,15 @@ public class SimpleSegTest {
 	}
 
 	@Test
-	@Ignore
 	public void testEffect2() throws IOException {
 		String words = segW.segWords("眼看就要来了", "|");
-		Assert.assertEquals("眼看|就要|来了", words);
+		Assert.assertEquals("眼看|就要|来|了", words);
 	}
 
 	@Test
-	@Ignore
 	public void testEffect3() throws IOException {
 		String words = segW.segWords("中西伯利亚", "|");
-		Assert.assertEquals("中西|伯利|亚", words);
+		Assert.assertEquals("中西|伯|利|亚", words);
 	}
 
 	@Test
