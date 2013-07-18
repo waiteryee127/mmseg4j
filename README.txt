@@ -86,6 +86,7 @@ solrconfig.xml：
 1.7.2 与 1.6.2 开始核心的程序与 lucene 和 solr 扩展分开打包，方便兼容低版本的 lucene，同时给出低版本（<= lucene 2.2）的 lucene 扩展请仿照 MMSegTokenizer.java。
 
 1.9.0 支持 solr/lucene 4.0.0 正式版。
+1.9.1 支持 solr/lucene 4.3.1
 
 可以在 http://code.google.com/p/mmseg4j/issues/list 提出希望 mmseg4j 有的功能。
 
